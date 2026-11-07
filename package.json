@@ -1,6 +1,6 @@
 {
   "name": "@sametnurel/game-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Lightweight, transport-agnostic multiplayer game server: commands, rooms, sessions with reconnect, matchmaking and turn timers over Socket.IO or plain WebSocket.",
   "keywords": [
     "game",

@@ -10,7 +10,7 @@ import { GameManager } from './game-manager';
 import { IdGenerator } from './ids';
 import { ConsoleLogger, type Logger } from './logger';
 import { RoomRegistry } from './rooms';
-import { MemoryTransport, type MemoryClient } from './transport/memory';
+import { MemoryTransport, type MemoryClient, type MemoryClientOptions } from './transport/memory';
 import type { ClientSocket, CorsOptions, Transport, TransportHandlers } from './transport/types';
 
 export interface GameServerOptions {
@@ -158,8 +158,13 @@ export class GameServer<TGame extends Game<any> = Game<any>, TData = unknown> {
    * An in-process client that talks to this server like a network client.
    * Use it for bots and tests. Requires start().
    */
-  createVirtualClient(): MemoryClient {
-    return this.memory.connect();
+  createVirtualClient(options?: MemoryClientOptions): MemoryClient {
+    return this.memory.connect(options);
+  }
+
+  /** Number of connected virtual clients (bots, tests). */
+  get virtualClients(): number {
+    return this.memory.size;
   }
 
   broadcast(room: string, event: string, data?: unknown, except?: Connection<TData>): void {

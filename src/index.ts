@@ -12,5 +12,5 @@ export { TurnTimer } from './turn-timer';
 export { IdGenerator, type IdGeneratorOptions } from './ids';
 export { ConsoleLogger, silentLogger, type Logger, type LogLevel } from './logger';
 export { SystemEvents, ErrorCodes, type SystemEvent, type ErrorCode, type ErrorPayload } from './events';
-export { MemoryTransport, MemoryClient } from './transport/memory';
+export { MemoryTransport, MemoryClient, type MemoryClientOptions } from './transport/memory';
 export type { Transport, TransportContext, TransportHandlers, ClientSocket, CorsOptions } from './transport/types';

@@ -7,6 +7,14 @@ interface Received {
 
 type Listener = (data: unknown) => void;
 
+export interface MemoryClientOptions {
+  /**
+   * Keep every received message in `received` (handy in tests). Turn it off for
+   * long-lived clients such as bots so memory does not grow. Default true.
+   */
+  record?: boolean;
+}
+
 /**
  * In-process client: for bots and tests. Speaks the same events as a network
  * client. Server-to-client messages are delivered asynchronously (microtask).
@@ -20,6 +28,8 @@ export class MemoryClient {
     readonly id: string,
     private readonly handlers: TransportHandlers,
     private readonly socket: ClientSocket,
+    private readonly record = true,
+    private readonly onClosed: () => void = () => {},
   ) {}
 
   /** Client -> server. */
@@ -56,6 +66,8 @@ export class MemoryClient {
   disconnect(reason = 'client disconnect'): void {
     if (!this.connected) return;
     this.connected = false;
+    this.listeners.clear();
+    this.onClosed();
     this.handlers.onDisconnect(this.socket, reason);
   }
 
@@ -68,7 +80,7 @@ export class MemoryClient {
     if (!this.connected) return;
     queueMicrotask(() => {
       if (!this.connected) return;
-      this.received.push({ event, data });
+      if (this.record) this.received.push({ event, data });
       for (const listener of [...(this.listeners.get(event) ?? [])]) listener(data);
     });
   }
@@ -93,7 +105,7 @@ export class MemoryTransport implements Transport {
     this.handlers = context.handlers;
   }
 
-  connect(): MemoryClient {
+  connect(options: MemoryClientOptions = {}): MemoryClient {
     const handlers = this.handlers;
     if (!handlers) throw new Error('MemoryTransport is not attached to a server yet');
     const id = `mem-${++this.counter}`;
@@ -104,14 +116,19 @@ export class MemoryTransport implements Transport {
       send: (event, data) => client?.deliver(event, data),
       close: () => client?.closedByServer(),
     };
-    client = new MemoryClient(id, handlers, socket);
+    client = new MemoryClient(id, handlers, socket, options.record ?? true, () => this.clients.delete(client!));
     this.clients.add(client);
     handlers.onConnect(socket);
     return client;
   }
 
   async close(): Promise<void> {
-    for (const client of this.clients) client.closedByServer();
+    for (const client of [...this.clients]) client.closedByServer();
     this.clients.clear();
+  }
+
+  /** Number of connected in-process clients. */
+  get size(): number {
+    return this.clients.size;
   }
 }
