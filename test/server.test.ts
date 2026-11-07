@@ -188,6 +188,21 @@ describe('virtual clients', () => {
   });
 });
 
+describe('virtual client lifecycle', () => {
+  it('forgets disconnected clients and can skip recording messages', async () => {
+    await startServer();
+    server.command('ping', ({ connection }) => connection.send('pong'));
+    const quiet = server.createVirtualClient({ record: false });
+    const pong = quiet.waitFor('pong');
+    quiet.send('ping');
+    await pong;
+    expect(quiet.received).toEqual([]);
+    expect(server.virtualClients).toBe(1);
+    quiet.disconnect();
+    expect(server.virtualClients).toBe(0);
+  });
+});
+
 describe('GameServer games', () => {
   it('ticks running games, skips finished ones and disposes on remove', async () => {
     await startServer();

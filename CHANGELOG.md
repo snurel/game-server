@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.2
+
+### Fixed
+- Disconnected virtual clients stayed in memory; they are now released.
+
+### Added
+- `createVirtualClient({ record: false })` for long-lived clients such as bots, so received messages are not kept.
+- `server.virtualClients` count.
+
 ## 1.0.1
 
 ### Fixed
