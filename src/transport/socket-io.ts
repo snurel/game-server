@@ -3,7 +3,7 @@ import type { ClientSocket, Transport, TransportContext } from './types';
 
 /**
  * Socket.IO transport. Events map 1:1 to Socket.IO events.
- * Import from '@sametnurel/socket-io-game-server/socket-io' (needs the `socket.io` package).
+ * Import from '@sametnurel/game-server/socket-io' (needs the `socket.io` package).
  */
 export class SocketIOTransport implements Transport {
   readonly name = 'socket.io';

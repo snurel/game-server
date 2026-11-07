@@ -18,7 +18,7 @@ export interface WebSocketTransportOptions {
  * Plain WebSocket transport (the `ws` package). Every frame is JSON:
  *   { "event": string, "data"?: any }
  * in both directions. Works with any WebSocket client (browser, Godot, mobile).
- * Import from '@sametnurel/socket-io-game-server/ws'.
+ * Import from '@sametnurel/game-server/ws'.
  */
 export class WebSocketTransport implements Transport {
   readonly name = 'ws';

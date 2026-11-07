@@ -1,4 +1,4 @@
-# @sametnurel/socket-io-game-server
+# @sametnurel/game-server
 
 A small, transport-agnostic server for turn-based multiplayer games. It gives you
 commands, rooms, reconnectable sessions, matchmaking and turn timers, and lets
@@ -10,7 +10,7 @@ Game rules stay in your code. The server routes messages and manages people.
 ## Install
 
 ```bash
-npm install @sametnurel/socket-io-game-server
+npm install @sametnurel/game-server
 # plus the transports you use:
 npm install ws          # plain WebSocket
 npm install socket.io   # Socket.IO
@@ -21,9 +21,9 @@ Requires Node 18+. Works from both CommonJS and ESM.
 ## Quick start
 
 ```ts
-import { GameServer, PayloadError } from '@sametnurel/socket-io-game-server';
-import { WebSocketTransport } from '@sametnurel/socket-io-game-server/ws';
-import { SocketIOTransport } from '@sametnurel/socket-io-game-server/socket-io';
+import { GameServer, PayloadError } from '@sametnurel/game-server';
+import { WebSocketTransport } from '@sametnurel/game-server/ws';
+import { SocketIOTransport } from '@sametnurel/game-server/socket-io';
 
 const server = new GameServer({
   transports: [new WebSocketTransport({ path: '/ws' }), new SocketIOTransport()],
@@ -152,7 +152,7 @@ Pass `logger: silentLogger` or your own `{ error, warn, info, debug }`.
 
 ## Migrating from 0.0.x
 
-1.0 is a rewrite; see [CHANGELOG.md](CHANGELOG.md). In short: no singletons
+This package was published as `@sametnurel/socket-io-game-server` up to 0.0.8. 1.0 is a rewrite; see [CHANGELOG.md](CHANGELOG.md). In short: no singletons
 (`GameManager.getInstance()` → `server.games`), commands receive a context
 instead of a socket, transports are pluggable, and port/CORS are options.
 

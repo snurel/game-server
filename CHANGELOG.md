@@ -2,7 +2,7 @@
 
 ## 1.0.0
 
-First stable release. A rewrite with breaking changes from 0.0.x.
+First stable release, renamed from `@sametnurel/socket-io-game-server` (0.0.x) because the server is no longer tied to Socket.IO. A rewrite with breaking changes.
 
 ### Added
 - Pluggable transports: `SocketIOTransport`, `WebSocketTransport` (plain JSON frames, for engines without Socket.IO such as Godot) and an in-process `MemoryTransport`. Several can run on one HTTP server and share rooms.
