@@ -11,13 +11,13 @@
     "matchmaking",
     "nodejs"
   ],
-  "homepage": "https://github.com/snurel/socket-io-game-server#readme",
+  "homepage": "https://github.com/snurel/game-server#readme",
   "bugs": {
-    "url": "https://github.com/snurel/socket-io-game-server/issues"
+    "url": "https://github.com/snurel/game-server/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/snurel/socket-io-game-server.git"
+    "url": "git+https://github.com/snurel/game-server.git"
   },
   "license": "ISC",
   "author": "Samet Nurel",
