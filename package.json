@@ -1,12 +1,14 @@
 {
   "name": "@sametnurel/socket-io-game-server",
-  "version": "0.0.8",
-  "description": "A lightweight, real-time multiplayer game server built with Socket.IO.",
+  "version": "1.0.0",
+  "description": "Lightweight, transport-agnostic multiplayer game server: commands, rooms, sessions with reconnect, matchmaking and turn timers over Socket.IO or plain WebSocket.",
   "keywords": [
     "game",
     "server",
-    "socket-io",
     "multiplayer",
+    "socket.io",
+    "websocket",
+    "matchmaking",
     "nodejs"
   ],
   "homepage": "https://github.com/snurel/socket-io-game-server#readme",
@@ -21,20 +23,54 @@
   "author": "Samet Nurel",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsc",
-    "prepublishOnly": "npm run build"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./socket-io": {
+      "types": "./dist/transport/socket-io.d.ts",
+      "default": "./dist/transport/socket-io.js"
+    },
+    "./ws": {
+      "types": "./dist/transport/ws.d.ts",
+      "default": "./dist/transport/ws.js"
+    },
+    "./package.json": "./package.json"
   },
-  "dependencies": {
-    "express": "^5.1.0",
-    "socket.io": "^4.8.1"
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "peerDependencies": {
+    "socket.io": "^4.8.0",
+    "ws": "^8.18.0"
+  },
+  "peerDependenciesMeta": {
+    "socket.io": {
+      "optional": true
+    },
+    "ws": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "typescript": "^5.4.0",
-    "@types/express": "^5.0.3",
-    "@types/node": "^20.11.19"
+    "@types/node": "^24.19.2",
+    "@types/ws": "^8.18.2",
+    "socket.io": "^4.8.4",
+    "socket.io-client": "^4.8.4",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0",
+    "ws": "^8.22.1"
   }
 }
