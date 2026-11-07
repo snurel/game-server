@@ -172,6 +172,22 @@ describe('GameServer rooms and connections', () => {
   });
 });
 
+describe('virtual clients', () => {
+  it('receive messages sent right before the server closes them', async () => {
+    await startServer();
+    server.command('leave', ({ connection }) => {
+      connection.send('bye', 'see you');
+      connection.close();
+    });
+    const client = server.createVirtualClient();
+    const bye = client.waitFor('bye');
+    client.send('leave');
+    await expect(bye).resolves.toBe('see you');
+    await Promise.resolve();
+    expect(client.isConnected).toBe(false);
+  });
+});
+
 describe('GameServer games', () => {
   it('ticks running games, skips finished ones and disposes on remove', async () => {
     await startServer();

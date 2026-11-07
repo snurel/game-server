@@ -73,9 +73,12 @@ export class MemoryClient {
     });
   }
 
-  /** @internal Server closed the connection. */
+  /**
+   * @internal Server closed the connection. Deferred so messages the server
+   * sent just before closing are still delivered, like a real socket flush.
+   */
   closedByServer(): void {
-    this.disconnect('server disconnect');
+    queueMicrotask(() => this.disconnect('server disconnect'));
   }
 }
 

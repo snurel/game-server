@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1
+
+### Fixed
+- Virtual (memory) clients lost messages that the server sent right before closing the connection.
+
 ## 1.0.0
 
 First stable release, renamed from `@sametnurel/socket-io-game-server` (0.0.x) because the server is no longer tied to Socket.IO. A rewrite with breaking changes.
